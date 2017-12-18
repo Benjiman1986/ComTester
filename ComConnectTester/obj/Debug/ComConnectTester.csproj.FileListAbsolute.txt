@@ -1,0 +1,9 @@
+E:\Git_Local\ComConnectTester\ComConnectTester\bin\Debug\ComConnectTester.exe.config
+E:\Git_Local\ComConnectTester\ComConnectTester\obj\Debug\ComConnectTester.csprojResolveAssemblyReference.cache
+E:\Git_Local\ComConnectTester\ComConnectTester\obj\Debug\ComConnectTester.Properties.Resources.resources
+E:\Git_Local\ComConnectTester\ComConnectTester\obj\Debug\ComConnectTester.csproj.GenerateResource.Cache
+E:\Git_Local\ComConnectTester\ComConnectTester\bin\Debug\ComConnectTester.exe
+E:\Git_Local\ComConnectTester\ComConnectTester\bin\Debug\ComConnectTester.pdb
+E:\Git_Local\ComConnectTester\ComConnectTester\obj\Debug\ComConnectTester.exe
+E:\Git_Local\ComConnectTester\ComConnectTester\obj\Debug\ComConnectTester.pdb
+E:\Git_Local\ComConnectTester\ComConnectTester\obj\Debug\ComConnectTester.Form1.resources

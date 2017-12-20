@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.IO.Ports;
@@ -24,11 +26,57 @@ namespace ComConnectTester
 
 		private void btn_open_Click(object sender, EventArgs e)
 		{
+			var dic = ConfigurationManager.GetSection("FirstComSection") as IDictionary;
 			CurrentPort.PortName = m_portList.SelectedItem.ToString();
-			CurrentPort.BaudRate = 9600;
-			CurrentPort.Parity = Parity.None;
-			CurrentPort.DataBits = 8;
-			CurrentPort.StopBits = StopBits.One;
+			if (dic != null)
+			{
+				CurrentPort.BaudRate = int.Parse(dic["BaudRate"].ToString());
+				switch (dic["Parity"].ToString())
+				{
+					case "None":
+						CurrentPort.Parity = Parity.None;
+						break;
+					case "Even":
+						CurrentPort.Parity = Parity.Even;
+						break;
+					case "Mark":
+						CurrentPort.Parity = Parity.Mark;
+						break;
+					case "Odd":
+						CurrentPort.Parity = Parity.Odd;
+						break;
+					case "Space":
+						CurrentPort.Parity = Parity.Space;
+						break;
+					default:
+						CurrentPort.Parity = Parity.None;
+						break;
+				}
+				CurrentPort.DataBits = int.Parse(dic["DataBits"].ToString());
+
+				switch (dic["StopBits"].ToString())
+				{
+					case "One":
+						CurrentPort.StopBits = StopBits.One;
+						break;
+					case "OnePointFive":
+						CurrentPort.StopBits = StopBits.OnePointFive;
+						break;
+					case "Two":
+						CurrentPort.StopBits = StopBits.Two;
+						break;
+					default:
+						CurrentPort.StopBits = StopBits.None;
+						break;
+				}
+			}
+			else
+			{
+				CurrentPort.BaudRate = 9600;
+				CurrentPort.Parity = Parity.None;
+				CurrentPort.DataBits = 8;
+				CurrentPort.StopBits = StopBits.One;
+			}
 
 			CurrentPort.DataReceived += new SerialDataReceivedEventHandler(CurrentPort_DataReceived);
 			try
@@ -53,15 +101,11 @@ namespace ComConnectTester
 		{
 			try
 			{
-				string currentLine = "";
 				byte[] receivedData = new byte[CurrentPort.BytesToRead];
 				CurrentPort.Read(receivedData, 0, receivedData.Length);
 				CurrentPort.DiscardInBuffer();
 
-				foreach (var data in receivedData)
-				{
-					currentLine += data.ToString("X2");
-				}
+				string currentLine = receivedData.Aggregate("", (current, data) => current + data.ToString("X2"));
 
 				received_message.Text += currentLine + "\r\n";
 			}
